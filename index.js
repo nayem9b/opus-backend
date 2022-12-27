@@ -12,6 +12,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@clu
 const client = new MongoClient(uri);
 const text = client.db("OPUS").collection("textUpdate");
 const usersCollection = client.db("OPUS").collection("users");
+const allEmails = client.db("OPUS").collection("emails");
 app.get("/", (req, res) => {
   res.send("Homepage is running");
 });
@@ -26,6 +27,11 @@ app.post("/userInfo", async (req, res) => {
   const userInfo = req.body;
   console.log(userInfo);
   const result = await usersCollection.insertOne(userInfo);
+  res.send(result);
+});
+app.post("/dashboard/allemails", async (req, res) => {
+  const info = req.body;
+  const result = await allEmails.insertOne(info);
   res.send(result);
 });
 app.get("/text", async (req, res) => {
