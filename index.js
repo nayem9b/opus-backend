@@ -38,6 +38,10 @@ app.get("/text", async (req, res) => {
   const getText = await text.find({}).toArray();
   res.send(getText);
 });
+app.get("/email", async (req, res) => {
+  const emails = await allEmails.find({}).toArray();
+  res.send(emails);
+});
 app.listen(port, () => {
   console.log(`port is running on ${port}`);
 });
