@@ -22,6 +22,12 @@ app.get("/users/admin/:email", async (req, res) => {
   const user = await usersCollection.findOne(query);
   res.send({ isAdmin: user?.role === "admin" });
 });
+app.post("/userInfo", async (req, res) => {
+  const userInfo = req.body;
+  console.log(userInfo);
+  const result = await usersCollection.insertOne(userInfo);
+  res.send(result);
+});
 app.get("/text", async (req, res) => {
   const getText = await text.find({}).toArray();
   res.send(getText);
