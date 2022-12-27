@@ -13,6 +13,7 @@ const client = new MongoClient(uri);
 const text = client.db("OPUS").collection("textUpdate");
 const usersCollection = client.db("OPUS").collection("users");
 const allEmails = client.db("OPUS").collection("emails");
+const imageCollection = client.db("OPUS").collection("image");
 app.get("/", (req, res) => {
   res.send("Homepage is running");
 });
@@ -51,9 +52,26 @@ app.patch("/text/:email", async (req, res) => {
   );
   res.send(result);
 });
+app.patch("/image/:email", async (req, res) => {
+  const { email } = req.params;
+  console.log(req.params, req.body);
+  const result = await imageCollection.updateOne(
+    {
+      email: email,
+    },
+    {
+      $set: req.body,
+    }
+  );
+  res.send(result);
+});
 app.get("/email", async (req, res) => {
   const emails = await allEmails.find({}).toArray();
   res.send(emails);
+});
+app.get("/image", async (req, res) => {
+  const image = await imageCollection.find({}).toArray();
+  res.send(image);
 });
 app.listen(port, () => {
   console.log(`port is running on ${port}`);
