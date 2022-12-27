@@ -38,6 +38,19 @@ app.get("/text", async (req, res) => {
   const getText = await text.find({}).toArray();
   res.send(getText);
 });
+app.patch("/text/:email", async (req, res) => {
+  const { email } = req.params;
+  console.log(req.params, req.body);
+  const result = await text.updateOne(
+    {
+      email: email,
+    },
+    {
+      $set: req.body,
+    }
+  );
+  res.send(result);
+});
 app.get("/email", async (req, res) => {
   const emails = await allEmails.find({}).toArray();
   res.send(emails);
